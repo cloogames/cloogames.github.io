@@ -72,9 +72,13 @@ address it's served from.
 
 ## Publishing
 
-Settings > Pages > Deploy from a branch > `main` / root.
+Repo is `MarkusClipper/cloo.games`, served from `main` at root, the same model
+as the portfolio. `CNAME` holds `cloo.games`.
 
-By default this serves at `<username>.github.io/<repo>/`. To give it its own
-address instead, add a `CNAME` file containing a single line with the host
-(for example `games.example.com`) and point a DNS CNAME record at
-`<username>.github.io`.
+That file is load bearing. The account's user site carries a custom domain, so
+without it a project repo here publishes under `markusclipper.com/cloo.games/`
+instead of standing on its own. Until the domain is registered and a DNS CNAME
+record points it at `markusclipper.github.io`, the site serves nowhere. That is
+the intended state, not a broken one.
+
+Settings > Pages > Deploy from a branch > `main` / root.

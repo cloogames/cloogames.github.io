@@ -86,12 +86,10 @@ folds `boards/` into the page to produce one. The repo copy has no such block
 and reads the folder. Keep both paths working; regenerate the preview after
 changing either the game or a board.
 
-There is no Python on the Windows machine, so `build-preview.py` cannot
-actually be run there. A PowerShell equivalent exists but is not in the repo,
-because two copies of the same script will drift. Pick one before relying on
-it. If you do port it, note that PS 5.1's `ConvertTo-Json` serialises a nested
-array as `{"value":[...],"Count":n}`, which `inlineBoards()` rejects outright;
-splice each board file's raw text in rather than round-tripping it.
+Python is the one piece of tooling this repo assumes. There is deliberately no
+PowerShell port: a second copy of the same script will drift from the first,
+and the drift will be found at the worst moment. If `python3` is missing, fix
+that rather than working around it.
 
 ## Photos
 

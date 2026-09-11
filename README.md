@@ -60,8 +60,7 @@ with no free image source, so their pictures have to be supplied by hand.
 
     python3 -m http.server        # inside the repo root, then localhost:8000
 
-There is no Python on the Windows box this was last worked on. Any static
-server does; the point is only that it be http and not `file://`.
+Any static server does; the point is only that it be http and not `file://`.
 
 ## Adding a game
 

@@ -154,12 +154,28 @@ theme; a file carries a board.
   character has one. Ghibli barely did: 24 cards collapsed to 11 distinct
   images, mostly film posters. That board was removed rather than left bare.
 
+- **When Wikipedia cannot, a fan wiki can.** Fandom runs MediaWiki, so the same
+  API works, with CORS, and the images both display and bake. It gave
+  Descendants & Zombies 24 distinct portraits where Wikipedia gave 10. Two traps
+  cost real time:
+  - The URL the API returns carries a `/revision/latest/scale-to-width-down/...`
+    suffix that **404s**. Cut back to the bare file URL, which is the only form
+    that serves.
+  - That 404 body is itself a valid 1976-byte JPEG, so `img.onload` fires on it
+    and every card silently gets the same grey placeholder. **Check the HTTP
+    status, never `onload`.** A load test that only waits for `onload` will
+    report 24 of 24 passing while showing 24 identical boxes.
+- **Prefer one photoshoot over per-page lookups.** Asking each character page
+  for its image returned a mix of scene stills, animated-series posters and
+  live-action portraits. `allimages` with an `aiprefix` of `Zombies-2-` found a
+  consistent set covering ten of twelve instead.
+
 ## Open items
 
-- Photos for Disney Channel, Pixar and Descendants & Zombies. Wikipedia yields
-  14, 18 and 10 distinct images out of 24, the rest being shared film posters,
-  so it cannot fill them. Needs a per-character source or files by hand.
-- The Nintendo photos are all links, so that board needs the network. F1 is
-  baked apart from Arvid Lindblad, which is still a link.
+- Photos for Disney Channel and Pixar. Wikipedia yields 14 and 18 distinct
+  images out of 24, the rest being shared film posters. A fan wiki would likely
+  fill both, the same way it filled Descendants & Zombies.
+- Nintendo and Descendants & Zombies are linked, so those boards need the
+  network. F1 is baked apart from Arvid Lindblad, which is still a link.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.
 - The site is public. There is no auth and none is wanted.

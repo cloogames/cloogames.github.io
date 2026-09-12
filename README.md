@@ -19,7 +19,8 @@ The game ships with no roster of its own. On a visitor's first load it reads
 
     [
       {"name": "Disney Channel",        "file": "disney-channel.json"},
-      {"name": "Descendants & Zombies", "file": "descendants-zombies.json"},
+      {"name": "Descendants & Zombies", "file": "descendants-zombies.json",
+                                        "photos": "descendants-zombies.json"},
       {"name": "F1 2026",               "file": "f1-2026.json",  "photos": "f1-2026.json"},
       {"name": "Pixar",                 "file": "pixar.json"},
       {"name": "Nintendo",              "file": "nintendo.json", "photos": "nintendo.json"}
@@ -45,16 +46,24 @@ off disk the game starts empty and tells you so; paste a theme in by hand.
 ## Photo sets
 
 `boards/` stays names only, on purpose. `photo-sets/` holds the same rosters
-with an `img` URL per card, and a board opts in from `boards/index.json`:
+with an `img` per card, and a board opts in from `boards/index.json`:
 
     {"name":"F1 2026", "file":"f1-2026.json", "photos":"f1-2026.json"}
 
 The game merges the two by name on load. A photo set that will not load costs
 that board its pictures, not the board itself.
 
-Cards loaded this way are *linked*, not copied, and carry an amber dot. They
-need the network every time the page loads. To make one permanent, drag the
-image file onto the card instead, which bakes it into local storage.
+An `img` is either a URL or a baked data URL. A URL is *linked*: the card
+carries an amber dot and needs the network on every load. Dragging an image
+file onto a card bakes it into local storage instead, which is permanent but
+much heavier.
+
+    f1-2026.json               564KB, baked, except Arvid Lindblad
+    nintendo.json                4KB, linked to Wikipedia
+    descendants-zombies.json     3KB, linked to Fandom
+
+Disney Channel and Pixar have no set. Wikipedia holds one image per film rather
+than per character for those, so most cards would end up sharing a poster.
 
 These files also work as paste material on their own, through "Paste a theme".
 

@@ -94,8 +94,8 @@ that rather than working around it.
 ## Photos
 
 Photos are never committed to `boards/`, which stays names only. `photo-sets/`
-is a parallel folder keyed by the same names, each card carrying an `img` URL.
-A board opts in from `boards/index.json`:
+is a parallel folder keyed by the same names, each card carrying an `img`,
+either a URL or a baked data URL. A board opts in from `boards/index.json`:
 
     {"name":"F1 2026", "file":"f1-2026.json", "photos":"f1-2026.json"}
 
@@ -107,6 +107,18 @@ the inline path shows the same board rather than a silently bare one.
 
 The files stay valid paste material on their own, since "Paste a theme" runs
 the list through `normalise()`, which preserves `img`.
+
+### A baked photo set costs real weight
+
+`photo-sets/f1-2026.json` is 564KB of base64, and `build-preview.py` folds it
+into `guess-who-preview.html`, so one round of photo edits adds roughly 1.1MB
+to the repo. Git keeps every version, so that is per update, not once. Base64
+also carries a 33% overhead over the bytes it encodes.
+
+If this is revised often, the cheaper shape is real image files under an `img/`
+folder with the photo set holding relative paths. Nothing in the loader needs
+changing for that; `portraitInto()` takes any `src`. It has not been done
+because one revision does not justify it.
 
 ### Moving a finished board between people
 

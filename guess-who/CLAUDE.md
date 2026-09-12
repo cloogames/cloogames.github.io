@@ -23,13 +23,19 @@ opponent. Do not add any.
 
 - **Elimination is fade, not flip.** An earlier version rotated cards face
   down. It was replaced on purpose.
-- **Knocked-out cards go quiet, but keep a readable name.** Fading the whole
-  card toward a light page drops the nameplate to ~2:1. Instead the photo is
-  washed almost out, behind a `rgba(244,240,234,.9)` overlay over a
-  `blur(10px) grayscale(1) contrast(.65)` backdrop filter, while the nameplate
-  holds **4.59:1** on the `#F4F0EA` face. An eliminated card reads as a blank
-  warm panel with a name on it, which is as close to face-down as this gets.
-  Measured, not eyeballed: standing nameplates are 11.4:1.
+- **Knocked-out cards must keep a readable name.** Fading the whole card
+  toward a light page drops the nameplate to ~2:1 contrast. The current
+  approach removes the shadow and dulls the fill instead, holding ~4:1.
+- **The live cards carry the signal, not the dead ones.** Pushing eliminated
+  cards until they nearly vanished was tried and rejected: it works, but the
+  board stops reading as a board. Instead cards still in play get a 2px
+  `rgba(74,53,47,.6)` ring, 3.4:1 against the page, and elimination stays the
+  gentle fade above. Do not solve "the dead cards are distracting" by fading
+  them further; mark the live ones.
+- **The accent ring means one card left, and must stay unique to that.** The
+  in-play ring is umber precisely so `.is-suspect` can keep rust to itself. It
+  wins on source order at equal specificity, so it has to stay defined after
+  the `[aria-pressed="false"]` rule.
 - **The blur is on an overlay, not the photo.** `backdrop-filter` on
   `.portrait::after`. Blurring the image directly forced a 7% upscale to hide
   soft edges, which re-cropped every face. There is an `@supports` fallback.

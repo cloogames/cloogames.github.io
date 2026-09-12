@@ -275,6 +275,7 @@ dialog::backdrop{background:rgba(30,20,17,.72)}
    Pasting a theme by hand works the same as it always did. */
 const FALLBACK_THEME = "Untitled board";
 const BOARDS_DIR = "boards/";
+const PHOTOS_DIR = "photo-sets/";
 
 const slug = s => String(s).toLowerCase().replace(/['’.]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const initials = n => String(n).split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
@@ -348,6 +349,26 @@ function inlineBoards(){
   }catch(e){ return null; }
 }
 
+/* Pictures live outside boards/, which stays names only. An index entry can
+   name a file in photo-sets/ listing the same names with an img each. A photo
+   set that will not load costs the board its pictures, never the board. */
+async function photosFor(entry){
+  if(!entry.photos) return null;
+  try{
+    const res = await fetch(PHOTOS_DIR + entry.photos, {cache:"no-store"});
+    if(!res.ok) throw new Error(res.status);
+    const list = await res.json();
+    if(!Array.isArray(list)) throw new Error("not a list");
+    return new Map(list.filter(c => c && c.name && c.img).map(c => [c.name, c.img]));
+  }catch(e){
+    note(`No pictures for ${entry.name || entry.file}: ${e.message}`);
+    return null;
+  }
+}
+const withPhotos = (roster, map) =>
+  map ? roster.map(c => map.has(c.name) ? Object.assign({}, c, {img:map.get(c.name)}) : c)
+      : roster;
+
 /* Read the boards folder. Each entry in boards/index.json names a file
    holding a plain roster array, the same shape the paste box takes. */
 async function importFromFolder(){
@@ -365,7 +386,7 @@ async function importFromFolder(){
       const roster = await res.json();
       if(!Array.isArray(roster) || !roster.length) throw new Error("empty");
       out.push({id:newId(), theme:entry.name || entry.file.replace(/\.json$/,""),
-                roster:shuffled(normalise(roster))});
+                roster:shuffled(withPhotos(normalise(roster), await photosFor(entry)))});
     }catch(e){
       note(`Couldn't load ${BOARDS_DIR}${entry.file}: ${e.message}`, true);
     }

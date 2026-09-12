@@ -19,9 +19,24 @@ if not (root/'index.html').is_file():
 html = (root/'index.html').read_text(encoding='utf-8')
 index = json.loads((root/'boards'/'index.json').read_text(encoding='utf-8'))
 
-boards = [{"name": e.get("name", e["file"]),
-           "roster": json.loads((root/'boards'/e["file"]).read_text(encoding='utf-8'))}
-          for e in index]
+
+def load(entry):
+    """Roster plus, if the entry names one, the matching photo set folded in.
+
+    The served page merges these at fetch time. Doing it here keeps the inline
+    path showing the same board rather than a silently picture-less one.
+    """
+    roster = json.loads((root/'boards'/entry['file']).read_text(encoding='utf-8'))
+    if entry.get('photos'):
+        photos = json.loads((root/'photo-sets'/entry['photos']).read_text(encoding='utf-8'))
+        by_name = {c['name']: c['img'] for c in photos if c.get('name') and c.get('img')}
+        for card in roster:
+            if card['name'] in by_name:
+                card['img'] = by_name[card['name']]
+    return roster
+
+
+boards = [{"name": e.get("name", e["file"]), "roster": load(e)} for e in index]
 
 block = ('<script type="application/json" id="starter-boards">\n'
          + json.dumps(boards, ensure_ascii=False) + '\n</script>\n')
@@ -32,5 +47,6 @@ if html.count(marker) != 1:
 html = html.replace(marker, marker + '\n' + block)
 
 out.write_text(html, encoding='utf-8')
+pics = sum(1 for b in boards for c in b['roster'] if c.get('img'))
 print(f"built {out}: {len(boards)} boards, "
-      f"{sum(len(b['roster']) for b in boards)} cards, {len(html)//1024}KB")
+      f"{sum(len(b['roster']) for b in boards)} cards, {pics} with photos, {len(html)//1024}KB")

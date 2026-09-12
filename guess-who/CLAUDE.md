@@ -93,31 +93,40 @@ that rather than working around it.
 
 ## Photos
 
-Photos are never committed to `boards/`. `photo-sets/` is a parallel folder of
-the same rosters carrying an `img` URL per card. The game does not read it. It
-exists because "Paste a theme" runs the pasted list through `normalise()`,
-which preserves `img`, so one paste fills a whole board.
+Photos are never committed to `boards/`, which stays names only. `photo-sets/`
+is a parallel folder keyed by the same names, each card carrying an `img` URL.
+A board opts in from `boards/index.json`:
 
-- **Anything pasted as a URL is linked, not baked.** It shows an amber dot and
-  needs the network on every load. The hub blurb promises the site works with
-  no connection once loaded, which linked photos quietly break. Baking still
-  requires dragging the image file onto the card one at a time.
-- **Only the F1 board has a free image source.** Those are real people with
-  Creative Commons photos on Wikimedia Commons, reached through
+    {"name":"F1 2026", "file":"f1-2026.json", "photos":"f1-2026.json"}
+
+`photosFor()` fetches the set and `withPhotos()` merges it by name after
+`normalise()` has run, so a board file never has to carry a picture. A photo
+set that fails to load costs that board its pictures and nothing else; the
+board still appears. `build-preview.py` does the same merge at build time, so
+the inline path shows the same board rather than a silently bare one.
+
+The files stay valid paste material on their own, since "Paste a theme" runs
+the list through `normalise()`, which preserves `img`.
+
+- **Photos loaded this way are linked, not baked.** Every card shows an amber
+  dot and needs the network on each load. The hub blurb promises the site works
+  with no connection once loaded, which linked photos break. Baking still means
+  dragging an image file onto a card one at a time.
+- **Only the F1 board has a free image source.** Real people with Creative
+  Commons photos on Wikimedia Commons, reached through
   `en.wikipedia.org/api/rest_v1/page/summary/<Page_Title>`, taking
-  `thumbnail.source`. Watch for disambiguation pages: plain "George Russell"
-  and "Carlos Sainz" both resolve to the wrong person.
+  `thumbnail.source`. `upload.wikimedia.org` sends CORS headers, so those URLs
+  both display and bake cleanly. Watch for disambiguation pages: plain "George
+  Russell" and "Carlos Sainz" both resolve to the wrong person.
 - **The four character boards have no free source.** Disney, Ghibli, Pixar and
-  Nintendo characters are all copyrighted and absent from Commons. Fan wikis
+  Nintendo characters are copyrighted and absent from Commons. Fan wikis
   generally refuse cross-origin canvas reads, so images dragged from one link
-  rather than bake. Save the file and drag it in to get a permanent card.
+  rather than bake. Save the file and drag it in for a permanent card.
 
 ## Open items
 
-- Photos. Only the F1 board has a ready set, and even that one is linked
-  rather than baked. See the Photos section above.
-- Hosting is undecided. A separate repo under the same GitHub account still
-  inherits the user-site custom domain, so full separation needs either its own
-  `CNAME` or a different host.
+- Photos on the four character boards. No free source exists, so these need
+  files supplied by hand.
+- The F1 photos are linked rather than baked, so that board needs the network.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.
-- The site is public once deployed. There is no auth and none is wanted.
+- The site is public. There is no auth and none is wanted.

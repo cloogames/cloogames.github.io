@@ -45,12 +45,18 @@ off disk the game starts empty and tells you so; paste a theme in by hand.
 ## Photo sets
 
 `boards/` stays names only, on purpose. `photo-sets/` holds the same rosters
-with an `img` URL on each card, which the game is not wired to read. Paste one
-into "Paste a theme" to load a whole board of pictures at once.
+with an `img` URL per card, and a board opts in from `boards/index.json`:
+
+    {"name":"F1 2026", "file":"f1-2026.json", "photos":"f1-2026.json"}
+
+The game merges the two by name on load. A photo set that will not load costs
+that board its pictures, not the board itself.
 
 Cards loaded this way are *linked*, not copied, and carry an amber dot. They
 need the network every time the page loads. To make one permanent, drag the
 image file onto the card instead, which bakes it into local storage.
+
+These files also work as paste material on their own, through "Paste a theme".
 
 Only `f1-2026.json` has a set. Those are real people with Creative Commons
 photos on Wikimedia Commons. The other four boards are copyrighted characters

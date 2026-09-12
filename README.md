@@ -58,9 +58,9 @@ image file onto the card instead, which bakes it into local storage.
 
 These files also work as paste material on their own, through "Paste a theme".
 
-Only `f1-2026.json` has a set. Those are real people with Creative Commons
-photos on Wikimedia Commons. The other four boards are copyrighted characters
-with no free image source, so their pictures have to be supplied by hand.
+`f1-2026.json` and `nintendo.json` have sets. The other three boards do not:
+Wikipedia holds one image per film rather than per character for those, so
+most cards would share a poster. They need a per-character source instead.
 
 ## Serving it locally
 

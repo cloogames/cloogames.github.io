@@ -112,21 +112,29 @@ the list through `normalise()`, which preserves `img`.
   dot and needs the network on each load. The hub blurb promises the site works
   with no connection once loaded, which linked photos break. Baking still means
   dragging an image file onto a card one at a time.
-- **Only the F1 board has a free image source.** Real people with Creative
-  Commons photos on Wikimedia Commons, reached through
-  `en.wikipedia.org/api/rest_v1/page/summary/<Page_Title>`, taking
-  `thumbnail.source`. `upload.wikimedia.org` sends CORS headers, so those URLs
-  both display and bake cleanly. Watch for disambiguation pages: plain "George
-  Russell" and "Carlos Sainz" both resolve to the wrong person.
-- **The four character boards have no free source.** Disney, Ghibli, Pixar and
-  Nintendo characters are copyrighted and absent from Commons. Fan wikis
-  generally refuse cross-origin canvas reads, so images dragged from one link
-  rather than bake. Save the file and drag it in for a permanent card.
+- **Finding images: use the MediaWiki API, not the REST summary.** Both take a
+  page title, but `prop=pageimages` defaults to free-licensed files only and so
+  returns nothing for a copyrighted character. `pilicense=any` includes the
+  non-free ones, which is what makes the character boards possible at all. Take
+  `thumbnail.source` at `pithumbsize=500` and strip the `utm_` query.
+  `upload.wikimedia.org` sends CORS headers, so the URLs display and bake.
+- **Always check what a search actually resolved to.** `generator=search` will
+  happily return the film or series article, whose image is a poster or a logo.
+  Three Up characters all matched "Up (2009 film)" and would have shared one
+  poster. A repeated image is worse than none, since it breaks the game outright.
+  Count distinct images before trusting a set, and check titles too: "Zelda"
+  matched a game, "Midna" matched a different game, "King Dedede" redirects to
+  "Kirby (series)" and yields the logo.
+- **A character needs its own article to get its own picture.** That is what
+  decides whether a board can be filled. Nintendo works because nearly every
+  character has one. Ghibli barely does: 24 cards collapsed to 11 distinct
+  images, mostly film posters, so that board cannot be filled this way.
 
 ## Open items
 
-- Photos on the four character boards. No free source exists, so these need
-  files supplied by hand.
-- The F1 photos are linked rather than baked, so that board needs the network.
+- Photos for Disney Channel, Pixar and Studio Ghibli. Wikipedia yields 14, 18
+  and 11 distinct images out of 24, the rest being shared posters, so it cannot
+  fill them. Needs a per-character source or files by hand.
+- Every photo is linked rather than baked, so those boards need the network.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.
 - The site is public. There is no auth and none is wanted.

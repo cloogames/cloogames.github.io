@@ -179,13 +179,19 @@ theme; a file carries a board.
   for its image returned a mix of scene stills, animated-series posters and
   live-action portraits. `allimages` with an `aiprefix` of `Zombies-2-` found a
   consistent set covering ten of twelve instead.
+- **Take the roster from the wiki too, not from memory.** Chicken Girls is niche
+  enough that guessing 24 names would have invented some. `Category:Main
+  Characters` gave 26 real ones. Trim to 24 on image quality, not on a guess at
+  who matters: a two-person hug, a storefront sign and a distant landscape still
+  are what actually disqualified cards. The page image is not always the best
+  one on the page either, so check before accepting it.
 
 ## Open items
 
 - Photos for Disney Channel and Pixar. Wikipedia yields 14 and 18 distinct
   images out of 24, the rest being shared film posters. A fan wiki would likely
   fill both, the same way it filled Descendants & Zombies.
-- Nintendo and Descendants & Zombies are linked, so those boards need the
-  network. F1 is baked apart from Arvid Lindblad, which is still a link.
+- Nintendo, Descendants & Zombies and Chicken Girls are linked, so those boards
+  need the network. F1 is baked apart from Arvid Lindblad, still a link.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.
 - The site is public. There is no auth and none is wanted.

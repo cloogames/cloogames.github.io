@@ -21,6 +21,8 @@ The game ships with no roster of its own. On a visitor's first load it reads
       {"name": "Disney Channel",        "file": "disney-channel.json"},
       {"name": "Descendants & Zombies", "file": "descendants-zombies.json",
                                         "photos": "descendants-zombies.json"},
+      {"name": "Chicken Girls",         "file": "chicken-girls.json",
+                                        "photos": "chicken-girls.json"},
       {"name": "F1 2026",               "file": "f1-2026.json",  "photos": "f1-2026.json"},
       {"name": "Pixar",                 "file": "pixar.json"},
       {"name": "Nintendo",              "file": "nintendo.json", "photos": "nintendo.json"}
@@ -61,6 +63,7 @@ much heavier.
     f1-2026.json               564KB, baked, except Arvid Lindblad
     nintendo.json                4KB, linked to Wikipedia
     descendants-zombies.json     3KB, linked to Fandom
+    chicken-girls.json           3KB, linked to Fandom
 
 Disney Channel and Pixar have no set. Wikipedia holds one image per film rather
 than per character for those, so most cards would end up sharing a poster.

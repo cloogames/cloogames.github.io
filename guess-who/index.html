@@ -99,26 +99,30 @@ body.editing .editbar{display:flex}
 .face{position:absolute;inset:0;border-radius:var(--tile-r);overflow:hidden}
 .face.front{background:var(--card);box-shadow:var(--shadow-lift);display:flex;flex-direction:column}
 
-/* knocked out: pull the card back and take the detail out of the face,
-   but keep the nameplate readable so you can still see who's gone */
-.tile[aria-pressed="true"] .tile-inner{transform:scale(.955)}
-.tile[aria-pressed="true"] .face.front{box-shadow:0 0 0 1px rgba(74,53,47,.07);background:#F2EDE6}
-.tile[aria-pressed="true"] .nameplate{background:transparent;color:rgba(74,53,47,.68)}
+/* Knocked out: the card goes as quiet as it can while still telling you who
+   is gone. The photo is the loud part, so it is washed nearly to the page
+   colour behind a heavy blur, leaving a faint ghost rather than a picture.
+   The nameplate keeps its contrast on purpose. Still a fade, never a flip. */
+.tile[aria-pressed="true"] .tile-inner{transform:scale(.94)}
+.tile[aria-pressed="true"] .face.front{box-shadow:0 0 0 1px rgba(74,53,47,.06);background:#F4F0EA}
+.tile[aria-pressed="true"] .nameplate{background:transparent;color:rgba(74,53,47,.72);border-top-color:rgba(74,53,47,.08)}
 
 /* The blur sits on an overlay instead of on the photo itself. The photo keeps
    its exact object-fit framing and scales with the card, and the overlay pulls
-   its blur from the surrounding composite so the card edge stays crisp. */
+   its blur from the surrounding composite so the card edge stays crisp. The
+   wash on top is what does most of the hiding; the blur only stops shapes
+   reading through it. */
 .portrait::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  opacity:0;transition:opacity .28s ease;
-  -webkit-backdrop-filter:grayscale(1) blur(2.4px) contrast(.86);
-          backdrop-filter:grayscale(1) blur(2.4px) contrast(.86)}
+  opacity:0;transition:opacity .28s ease;background:rgba(244,240,234,.9);
+  -webkit-backdrop-filter:grayscale(1) blur(10px) contrast(.65) brightness(1.12);
+          backdrop-filter:grayscale(1) blur(10px) contrast(.65) brightness(1.12)}
 .tile[aria-pressed="true"] .portrait::after{opacity:1}
 
-/* No backdrop-filter: blur the photo directly. Framing still untouched. */
+/* No backdrop-filter: fade the photo out directly instead. Framing untouched. */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .portrait>img,.portrait>.placeholder{transition:filter .28s ease}
+  .portrait>img,.portrait>.placeholder{transition:filter .28s ease, opacity .28s ease}
   .tile[aria-pressed="true"] .portrait>img,
-  .tile[aria-pressed="true"] .portrait>.placeholder{filter:grayscale(1) blur(2.2px) contrast(.82)}
+  .tile[aria-pressed="true"] .portrait>.placeholder{filter:grayscale(1) blur(8px) contrast(.6) brightness(1.15);opacity:.1}
 }
 @media(prefers-reduced-motion:reduce){
   .tile-inner,.portrait>*,.portrait::after{transition:none}

@@ -23,9 +23,13 @@ opponent. Do not add any.
 
 - **Elimination is fade, not flip.** An earlier version rotated cards face
   down. It was replaced on purpose.
-- **Knocked-out cards must keep a readable name.** Fading the whole card
-  toward a light page drops the nameplate to ~2:1 contrast. The current
-  approach removes the shadow and dulls the fill instead, holding ~4:1.
+- **Knocked-out cards go quiet, but keep a readable name.** Fading the whole
+  card toward a light page drops the nameplate to ~2:1. Instead the photo is
+  washed almost out, behind a `rgba(244,240,234,.9)` overlay over a
+  `blur(10px) grayscale(1) contrast(.65)` backdrop filter, while the nameplate
+  holds **4.59:1** on the `#F4F0EA` face. An eliminated card reads as a blank
+  warm panel with a name on it, which is as close to face-down as this gets.
+  Measured, not eyeballed: standing nameplates are 11.4:1.
 - **The blur is on an overlay, not the photo.** `backdrop-filter` on
   `.portrait::after`. Blurring the image directly forced a 7% upscale to hide
   soft edges, which re-cropped every face. There is an `@supports` fallback.

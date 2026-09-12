@@ -1,7 +1,6 @@
 [
   {"name":"Disney Channel", "file":"disney-channel.json"},
-  {"name":"F1 2026",        "file":"f1-2026.json",       "photos":"f1-2026.json"},
-  {"name":"Studio Ghibli",  "file":"studio-ghibli.json"},
+  {"name":"F1 2026",        "file":"f1-2026.json",  "photos":"f1-2026.json"},
   {"name":"Pixar",          "file":"pixar.json"},
-  {"name":"Nintendo",       "file":"nintendo.json",      "photos":"nintendo.json"}
+  {"name":"Nintendo",       "file":"nintendo.json", "photos":"nintendo.json"}
 ]

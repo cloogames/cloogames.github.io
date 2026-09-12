@@ -127,13 +127,13 @@ the list through `normalise()`, which preserves `img`.
   "Kirby (series)" and yields the logo.
 - **A character needs its own article to get its own picture.** That is what
   decides whether a board can be filled. Nintendo works because nearly every
-  character has one. Ghibli barely does: 24 cards collapsed to 11 distinct
-  images, mostly film posters, so that board cannot be filled this way.
+  character has one. Ghibli barely did: 24 cards collapsed to 11 distinct
+  images, mostly film posters. That board was removed rather than left bare.
 
 ## Open items
 
-- Photos for Disney Channel, Pixar and Studio Ghibli. Wikipedia yields 14, 18
-  and 11 distinct images out of 24, the rest being shared posters, so it cannot
+- Photos for Disney Channel and Pixar. Wikipedia yields 14 and 18 distinct
+  images out of 24, the rest being shared film posters, so it cannot
   fill them. Needs a per-character source or files by hand.
 - Every photo is linked rather than baked, so those boards need the network.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.

@@ -19,10 +19,9 @@ The game ships with no roster of its own. On a visitor's first load it reads
 
     [
       {"name": "Disney Channel", "file": "disney-channel.json"},
-      {"name": "F1 2026",        "file": "f1-2026.json"},
-      {"name": "Studio Ghibli",  "file": "studio-ghibli.json"},
+      {"name": "F1 2026",        "file": "f1-2026.json", "photos": "f1-2026.json"},
       {"name": "Pixar",          "file": "pixar.json"},
-      {"name": "Nintendo",       "file": "nintendo.json"}
+      {"name": "Nintendo",       "file": "nintendo.json", "photos": "nintendo.json"}
     ]
 
 Each board file is a plain array, the same shape the in-game paste box takes:
@@ -58,7 +57,7 @@ image file onto the card instead, which bakes it into local storage.
 
 These files also work as paste material on their own, through "Paste a theme".
 
-`f1-2026.json` and `nintendo.json` have sets. The other three boards do not:
+`f1-2026.json` and `nintendo.json` have sets. Disney Channel and Pixar do not:
 Wikipedia holds one image per film rather than per character for those, so
 most cards would share a poster. They need a per-character source instead.
 

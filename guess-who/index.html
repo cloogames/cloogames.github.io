@@ -865,9 +865,16 @@ $("btnDelBoard").onclick = () => {
    ============================================================ */
 function saveBoardFile(){
   if(!state.roster.length){ note("Nothing on this board to save.", true); return; }
-  const data = {theme: state.theme,
-                roster: state.roster.map(c => ({name:c.name, show:c.show, img:c.img}))};
-  const blob = new Blob([JSON.stringify(data)], {type:"application/json"});
+  /* Indented, and empty fields left out, so the file reads. A card with no
+     photo is one short line rather than a row of blanks. */
+  const card = c => {
+    const out = {name: c.name};
+    if(c.show) out.show = c.show;
+    if(c.img)  out.img  = c.img;
+    return out;
+  };
+  const data = {theme: state.theme, roster: state.roster.map(card)};
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = (slug(state.theme) || "board") + ".json";

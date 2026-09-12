@@ -108,6 +108,18 @@ the inline path shows the same board rather than a silently bare one.
 The files stay valid paste material on their own, since "Paste a theme" runs
 the list through `normalise()`, which preserves `img`.
 
+### Moving a finished board between people
+
+"Save to a file" writes `{theme, roster}` with every `img` intact, named from
+the theme slug. "Load from a file" takes that back, or a bare roster array, and
+adds it as a *new* board rather than replacing one, since the file came from
+someone else. That is the route for a board of personal photos: it never
+touches the repo, so nothing private ends up on a public site.
+
+"Copy what's there now" still drops `img` on purpose. A board of baked photos
+runs past 500KB, which is not something anyone pastes by hand. Text carries a
+theme; a file carries a board.
+
 - **Photos loaded this way are linked, not baked.** Every card shows an amber
   dot and needs the network on each load. The hub blurb promises the site works
   with no connection once loaded, which linked photos break. Baking still means

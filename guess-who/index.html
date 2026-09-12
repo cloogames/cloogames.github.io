@@ -228,6 +228,8 @@ dialog::backdrop{background:rgba(30,20,17,.72)}
     <button class="btn small" id="btnNewBoard">New board</button>
     <button class="btn small" id="btnDupBoard">Duplicate</button>
     <button class="btn small danger" id="btnDelBoard">Delete board</button>
+    <button class="btn small" id="btnSaveFile">Save to a file</button>
+    <button class="btn small" id="btnLoadFile">Load from a file</button>
     <button class="btn small" id="btnPasteTheme">Paste a theme</button>
     <button class="btn small" id="btnFolder">Point at img/ folder</button>
     <button class="btn small primary" id="btnDoneEdit">Done</button>
@@ -243,6 +245,7 @@ dialog::backdrop{background:rgba(30,20,17,.72)}
 </div>
 
 <input type="file" id="filePicker" accept="image/*" hidden>
+<input type="file" id="boardPicker" accept="application/json,.json" hidden>
 
 <dialog id="dlgTheme"><div class="dlg">
   <h3>Paste a theme</h3>
@@ -852,6 +855,59 @@ $("btnDelBoard").onclick = () => {
   renderBoardPick(); renderBoard(); renderMine();
   note(`Deleted ${name}.`);
 };
+
+/* ============================================================
+   A BOARD AS A FILE
+   The paste box carries a theme between browsers, but it drops
+   photos on purpose: a board of baked ones runs past 500KB,
+   which is not something anyone pastes by hand. A file is how a
+   finished board, pictures and all, reaches the other player.
+   ============================================================ */
+function saveBoardFile(){
+  if(!state.roster.length){ note("Nothing on this board to save.", true); return; }
+  const data = {theme: state.theme,
+                roster: state.roster.map(c => ({name:c.name, show:c.show, img:c.img}))};
+  const blob = new Blob([JSON.stringify(data)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = (slug(state.theme) || "board") + ".json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  const photos = state.roster.filter(c => c.img).length;
+  const linked = state.roster.filter(isLinked).length;
+  note(`Saved ${state.roster.length} cards, ${photos} with photos.` +
+       (linked ? ` ${linked} are links rather than copies, so they need the original site to still be up.` : ""));
+}
+
+/* Takes what saveBoardFile writes, and also a bare roster array, so a
+   theme pasted into a file by hand still loads. Lands as a new board
+   rather than replacing one, because the file came from someone else. */
+function loadBoardFile(file){
+  const r = new FileReader();
+  r.onerror = () => note("Couldn't read that file.", true);
+  r.onload = () => {
+    let p;
+    try{ p = JSON.parse(r.result); }
+    catch(e){ note("That file isn't valid JSON.", true); return; }
+    const list = Array.isArray(p) ? p : (p && p.roster);
+    if(!Array.isArray(list) || !list.length){ note("No cards in that file.", true); return; }
+    const bad = list.findIndex(c => !c || !c.name);
+    if(bad > -1){ note(`Card ${bad+1} in that file has no name.`, true); return; }
+    const theme = (!Array.isArray(p) && p.theme) ||
+                  file.name.replace(/\.json$/i,"") || "Loaded board";
+    if(!addBoard({id:newId(), theme, roster:shuffled(normalise(list))})) return;
+    note(`Loaded "${theme}", ${list.length} cards.`);
+  };
+  r.readAsText(file);
+}
+
+$("btnSaveFile").onclick = saveBoardFile;
+$("btnLoadFile").onclick = () => $("boardPicker").click();
+$("boardPicker").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0];
+  if(f) loadBoardFile(f);
+  e.target.value = "";
+});
 
 $("btnPasteTheme").onclick = () => {
   $("inpJSON").value = JSON.stringify(

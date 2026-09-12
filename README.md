@@ -57,9 +57,20 @@ image file onto the card instead, which bakes it into local storage.
 
 These files also work as paste material on their own, through "Paste a theme".
 
-`f1-2026.json` and `nintendo.json` have sets. Disney Channel and Pixar do not:
-Wikipedia holds one image per film rather than per character for those, so
-most cards would share a poster. They need a per-character source instead.
+## Sharing a board you built
+
+Photos you add yourself are stored in your own browser and nowhere else. To get
+a finished board to the other player, open "Edit board" and use:
+
+    Save to a file     writes the board, photos and all, as a .json
+    Load from a file   adds one back as a new board, keeping what's there
+
+Send them the file. Nothing goes through the repo, so personal photos stay off
+the public site. Loading never overwrites an existing board.
+
+"Copy what's there now" is a different thing: it copies names only, for moving
+a theme you then photograph yourself. A board of baked photos is too large to
+paste by hand.
 
 ## Serving it locally
 

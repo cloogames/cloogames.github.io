@@ -156,9 +156,10 @@ theme; a file carries a board.
 
 ## Open items
 
-- Photos for Disney Channel and Pixar. Wikipedia yields 14 and 18 distinct
-  images out of 24, the rest being shared film posters, so it cannot
-  fill them. Needs a per-character source or files by hand.
-- Every photo is linked rather than baked, so those boards need the network.
+- Photos for Disney Channel, Pixar and Descendants & Zombies. Wikipedia yields
+  14, 18 and 10 distinct images out of 24, the rest being shared film posters,
+  so it cannot fill them. Needs a per-character source or files by hand.
+- The Nintendo photos are all links, so that board needs the network. F1 is
+  baked apart from Arvid Lindblad, which is still a link.
 - `.nojekyll` is present and empty, which keeps Pages from running Jekyll.
 - The site is public. There is no auth and none is wanted.

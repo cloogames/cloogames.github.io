@@ -18,10 +18,11 @@ The game ships with no roster of its own. On a visitor's first load it reads
 `guess-who/boards/index.json` and pulls in every board listed there:
 
     [
-      {"name": "Disney Channel", "file": "disney-channel.json"},
-      {"name": "F1 2026",        "file": "f1-2026.json", "photos": "f1-2026.json"},
-      {"name": "Pixar",          "file": "pixar.json"},
-      {"name": "Nintendo",       "file": "nintendo.json", "photos": "nintendo.json"}
+      {"name": "Disney Channel",        "file": "disney-channel.json"},
+      {"name": "Descendants & Zombies", "file": "descendants-zombies.json"},
+      {"name": "F1 2026",               "file": "f1-2026.json",  "photos": "f1-2026.json"},
+      {"name": "Pixar",                 "file": "pixar.json"},
+      {"name": "Nintendo",              "file": "nintendo.json", "photos": "nintendo.json"}
     ]
 
 Each board file is a plain array, the same shape the in-game paste box takes:
